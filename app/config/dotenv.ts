@@ -10,6 +10,7 @@ if (envFound.error) {
 }
 
 interface ICredentials {
+  nodeEnv: string;
   port: string;
   databaseURL: string;
   appSecret: string;
@@ -24,6 +25,7 @@ interface ICredentials {
 
 
 const credentials: ICredentials = {
+  nodeEnv: String(process.env.NODE_ENV),
   port: String(process.env.PORT),
   databaseURL: String(process.env.DATABASE_URI),
   appSecret: String(process.env.APP_SECRET),

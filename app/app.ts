@@ -20,10 +20,9 @@ class App {
     this.app.listen(config.port);
     this.app.on("error", (err, ctx) => {
       console.log(err.message)
-      ctx.body = "Lio test"
-
     })
     console.log("Listening to port", config.port)
+
   }
 
   async config() {
@@ -44,7 +43,7 @@ class App {
       .use(router.routes())
       .use(router.allowedMethods());
 
-
+    return this.app
   }
 
 

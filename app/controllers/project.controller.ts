@@ -23,25 +23,30 @@ export default class ProjectController {
                 name: "PageError",
                 message: "The page number must be higher than 0"
             }
+            return;
         }
-        console.log(await this.model.getAll(page * size, size))
         ctx.body = await this.model.getAll(page * size, size)
     }
 
     getOne = async (ctx: Context) => {
         const data = await this.model.getOne(ctx.params.id)
-        if (!data) {
+        if (!data || data.length == 0) {
             ctx.status = 404
             ctx.body = {
                 name: "IndexError",
                 message: "The content you asked for does not exist"
             }
+            return;
         }
-        ctx.body = data
+        if (data.length != 0)
+            ctx.body = data[0]
     }
 
     getDeployments = async (ctx: Context) => {
-        ctx.body = await this.deploymentModel.createDeploment(ctx.params.id)
+        let response = await this.deploymentModel.createDeploment(ctx.params.id)
+
+        if (response && response.length != 0)
+            ctx.body = response[0]
 
     }
 

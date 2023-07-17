@@ -36,18 +36,52 @@ export default class DeploymentController {
                 message: "The content you asked for does not exist"
             }
         }
-        ctx.body = data
+        if (data.length != 0)
+            ctx.body = data[0]
 
     }
 
     cancel = async (ctx: Context) => {
-        ctx.body = await this.model.cancel(ctx.params.id)
-
+        let response = await this.model.cancel(ctx.params.id)
+        if (response && response.length != 0)
+            ctx.body = response[0]
+        else {
+            ctx.status = 404
+            ctx.body = {
+                name: "BadInput",
+                message: "The provided input does not exist"
+            }
+        }
     }
 
     webhook = async (ctx: Context) => {
         const body = <WebhookRequestType>ctx.request.body;
-        ctx.body = await this.model.webhook(body)
+        if (!body.hasOwnProperty("id") && !body.hasOwnProperty("status")) {
+            ctx.status = 401
+            ctx.body = {
+                name: "BadInput",
+                message: "Please provide the id and status fields"
+            }
+        }
+
+        let response = await this.model.webhook(body)
+        if (response && response.length != 0)
+            ctx.body = response[0]
+        else if (response == false) {
+            ctx.status = 404
+            ctx.body = {
+                name: "BadInput",
+                message: "The provided input does not exist"
+            }
+        }
+        else {
+            ctx.status = 500
+            ctx.body = {
+                name: "ServerError",
+                message: "An error occured on the server"
+            }
+        }
+
 
     }
 

@@ -1,8 +1,4 @@
 import config from "./dotenv";
 import knex from "knex";
-
-export default knex({
-    client: 'pg',
-    connection: config.databaseURL,
-    searchPath: ['knex', 'public'],
-});
+import knexconfig from "./../../knexfile";
+export default knex(config.nodeEnv == "development" ? knexconfig.development : knexconfig.production);

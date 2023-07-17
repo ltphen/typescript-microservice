@@ -18,14 +18,13 @@ export const checkAuth = async (ctx: Koa.Context, next: Function, authType: "web
             return next()
         }
         const decoded: any = jwt.verify(authorization, config.jwtSecret);
-        console.log(decoded)
         if (!decoded || decoded instanceof (JsonWebTokenError || TokenExpiredError)) {
             throw new Middleware_Error("Incorrect token");
         }
         return next()
 
     } catch (err: any) {
-        console.log(err)
+        // console.log(err)
         ctx.status = 401
         ctx.body = {
             name: "Unauthorized",

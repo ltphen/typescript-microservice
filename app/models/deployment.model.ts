@@ -60,7 +60,7 @@ export class DeploymentModel extends Model {
             status: this.CANCELED_STATUS,
         }).returning('id')
         if (!returned_id || returned_id.length == 0)
-            throw Error("Error while creating the deployment")
+            return false
         return this.getOne(returned_id[0].id)
 
     }
@@ -81,7 +81,7 @@ export class DeploymentModel extends Model {
 
         const returned_id = await this.db(this.deploymentTableName).where("id", body.id).update(update_table).returning('*')
         if (!returned_id || returned_id.length == 0)
-            throw Error("Error while receiving the webhook. The items does not exist")
+            return false
 
         // Updating projects
         let database = this.db
