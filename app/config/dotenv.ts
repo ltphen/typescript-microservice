@@ -13,6 +13,7 @@ interface ICredentials {
   port: string;
   databaseURL: string;
   appSecret: string;
+  jwtSecret: string;
   jwtAlgorithm: string;
   jwtAccessExp: number;
   appHost: string;
@@ -25,7 +26,8 @@ interface ICredentials {
 const credentials: ICredentials = {
   port: String(process.env.PORT),
   databaseURL: String(process.env.DATABASE_URI),
-  appSecret: String(process.env.JWT_SECRET),
+  appSecret: String(process.env.APP_SECRET),
+  jwtSecret: String(process.env.JWT_SECRET),
   jwtAlgorithm: String(process.env.JWT_ALGO),
   appHost: String(process.env.APP_HOST),
   jwtAccessExp: parseInt(process.env.JWT_ACCESS_TOKEN_EXP_VALUE || ""),

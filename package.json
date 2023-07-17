@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
+    "jsonwebtoken": "^9.0.1",
     "knex": "^2.5.1",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.1",
@@ -30,6 +31,7 @@
     "pg": "^8.11.1"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/koa": "^2.13.6",
     "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-helmet": "^6.0.4",
