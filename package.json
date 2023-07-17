@@ -1,0 +1,49 @@
+{
+  "name": "strapi-project",
+  "version": "1.0.0",
+  "description": "Strapi test project",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "bundle": "webpack",
+    "dev": "nodemon",
+    "lint": "eslint 'src/**/*.*'",
+    "lint:fix": "prettier 'src/**/*.*' --write",
+    "start:prod": "yarn build && yarn start",
+    "migrate": "knex migrate:latest && knex seed:run",
+    "build": "rimraf dist && yarn bundle",
+    "clean": "rimraf dist coverage node_modules yarn-error.log mongo-config.tmp",
+    "test": "jest --watch",
+    "test:once": "jest",
+    "test:coverage": "jest --detectOpenHandles --forceExit --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "dependencies": {
+    "@koa/cors": "^4.0.0",
+    "knex": "^2.5.1",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.1",
+    "koa-helmet": "^7.0.2",
+    "koa-oas3": "^2.5.0",
+    "koa-router": "^12.0.0",
+    "nodemon": "^3.0.1",
+    "openapi": "^1.0.1",
+    "pg": "^8.11.1"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.6",
+    "@types/koa-bodyparser": "^4.3.10",
+    "@types/koa-helmet": "^6.0.4",
+    "@types/koa-router": "^7.4.4",
+    "@types/koa__cors": "^4.0.0",
+    "concurrently": "^6.0.1",
+    "copy-webpack-plugin": "^10.2.4",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.2.0",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
