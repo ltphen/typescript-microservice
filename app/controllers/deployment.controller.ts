@@ -1,17 +1,16 @@
+import Koa, { Context } from 'koa'
 import { DeploymentModel } from './../models/deployment.model';
 import ProjectModel from './../models/project.model'
-import Koa, { Context } from 'koa'
+import { WebhookRequestType } from "./../types/types";
 
-import { strict as assert } from 'node:assert';
 
-export default class ProjectController {
-    private model: ProjectModel
-    private deploymentModel: DeploymentModel;
+export default class DeploymentController {
+    private model: DeploymentModel
 
     constructor() {
-        this.model = new ProjectModel()
-        this.deploymentModel = new DeploymentModel()
+        this.model = new DeploymentModel()
     }
+
 
     getAll = async (ctx: Context) => {
         const params = ctx.request.query
@@ -23,8 +22,8 @@ export default class ProjectController {
                 name: "PageError",
                 message: "The page number must be higher than 0"
             }
+            return;
         }
-        console.log(await this.model.getAll(page * size, size))
         ctx.body = await this.model.getAll(page * size, size)
     }
 
@@ -38,10 +37,17 @@ export default class ProjectController {
             }
         }
         ctx.body = data
+
     }
 
-    getDeployments = async (ctx: Context) => {
-        ctx.body = await this.deploymentModel.createDeploment(ctx.params.id)
+    cancel = async (ctx: Context) => {
+        ctx.body = await this.model.cancel(ctx.params.id)
+
+    }
+
+    webhook = async (ctx: Context) => {
+        const body = <WebhookRequestType>ctx.request.body;
+        ctx.body = await this.model.webhook(body)
 
     }
 
