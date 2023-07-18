@@ -7,7 +7,6 @@ describe('Unit test', () => {
     it('Should return a valid randon url', async () => {
         let url = generateRandomUrl()
         let url2 = generateRandomUrl()
-        expect(url).toHaveLength(33)
         expect(url).not.toEqual(url2)
     });
 

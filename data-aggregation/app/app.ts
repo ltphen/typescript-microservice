@@ -6,49 +6,45 @@ import helmet from "koa-helmet";
 import cors from '@koa/cors';
 import handleErrors from './middlewares/handleErrors';
 import router from "./routes/routes"
+
+import EventController from "./controllers/event.controller";
 import MessageBroker from "./utils/RabbitMQ";
+
 
 class App {
 
   protected app: Koa;
   protected mq: MessageBroker;
+  protected eventController: EventController;
 
   constructor() {
     this.app = new Koa();
+    this.eventController = new EventController();
     this.mq = new MessageBroker()
-
   }
 
   async run() {
     await this.config();
     this.app.listen(config.port);
-    this.app.on("error", (err, ctx) => {
-      console.log(err.message)
-    })
+    // this.app.on("error", (err: any, ctx) => {
+    //   console.log(err.message)
+    // })
     console.log("Listening to port", config.port)
 
-    console.log("Ready listenning to events")
-  }
-
-  async sendEvents() {
-    this.app.use((ctx: Koa.Context, next) => {
-      if (ctx.method == "POST") {
-        console.log(ctx.method, { verb: ctx.request.path, body: ctx.request.body })
-        this.mq.send("EVENT", JSON.stringify({ path: ctx.request.path, body: ctx.request.body }))
-      }
-
-      return next()
+    let instance = await this.mq.init()
+    instance.subscribe("EVENT", async (response: any, ack: Function) => {
+      let data = JSON.parse(response.content.toString())
+      await this.eventController.createEvent(data, ack)
     })
+    console.log("Ready listenning to events")
+
   }
+
   async config() {
 
     // Setting up the documentation
-
     const openapi = await getConfig();
-    this.app
-      .use(openapi)
-      .use(bodyParser());
-    await this.sendEvents()
+    this.app.use(openapi);
 
 
     // Setting up the routes
@@ -57,6 +53,7 @@ class App {
     this.app
       .use(handleErrors)
       .use(helmet())
+      .use(bodyParser())
       .use(cors())
       .use(router.routes())
       .use(router.allowedMethods());

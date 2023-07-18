@@ -1,7 +1,63 @@
-version: '2.4'
-
+version: "3"
 services:
+  project:
+    build: ./project  # path to the project service Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - DATABASE_URI=postgres://postgres:password@project-db:5432
+      - JWT_SECRET=theJwtSecret
+      - JWT_ALGO=HS256
+      - JWT_ACCESS_TOKEN_EXP_VALUE=theJwtExpValue
+      - ENV=production
+      - APP_HOST=project
+      - APP_SECRET=theAppSecret
+      - RABBITMQ_CONNECTION=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - project-db
+      - rabbitmq
 
+  data_aggregation:
+    build: ./data-aggregation  # path to the data aggregation service Dockerfile
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+      - DATABASE_URI=postgres://postgres:password@data-aggregation-db:5432
+      - JWT_SECRET=theJwtSecret
+      - JWT_ALGO=HS256
+      - JWT_ACCESS_TOKEN_EXP_VALUE=theJwtExpValue
+      - ENV=production
+      - APP_HOST=data_aggregation
+      - APP_SECRET=theAppSecret
+      - RABBITMQ_CONNECTION=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - data-aggregation-db
+      - rabbitmq
+
+  project-db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - project-db_data:/var/lib/postgresql/data
+
+  data-aggregation-db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - data-aggregation-db_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
-  db:
+  project-db_data: {}
+  data-aggregation-db_data: {}

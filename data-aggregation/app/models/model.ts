@@ -4,12 +4,10 @@ import database from "../config/database";
 export default class Model {
 
     protected db: Knex;
-    protected projectTableName: string;
-    protected deploymentTableName: string;
+    protected tablename: string;
 
     constructor() {
         this.db = database;
-        this.projectTableName = "projects"
-        this.deploymentTableName = "deployments"
+        this.tablename = "events"
     }
 }

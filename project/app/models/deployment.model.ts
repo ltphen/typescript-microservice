@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 import Model from "./model";
-import { Status, WebhookRequestType } from "./../types/types";
+import { Status, WebhookRequestType } from "../types/types";
 import { generateRandomUrl } from "../utils/utils";
 
 
@@ -31,11 +31,21 @@ export class DeploymentModel extends Model {
         ).from(this.deploymentTableName).limit(size)
     }
 
+    /**
+    * Method to get all deployments with limit and offset for pagination
+    * @param offset Starting point in the list of records
+    * @param size Number of records to return
+    * @returns An array of Deployment objects
+    */
     getAll(offset: number, size: number) {
         return this.selectDeployments(size).offset(offset);
     }
 
-
+    /**
+    * Method to create a deployment
+    * @param id The ID of the project for which the deployment is being created
+    * @returns The created Deployment object
+    */
     createDeploment = async (id: string) => {
         const returned_id = await this.db(this.deploymentTableName).insert({
             status: this.PENDING_STATUS,
@@ -48,12 +58,21 @@ export class DeploymentModel extends Model {
         return this.getOne(returned_id[0].id)
     }
 
-
+    /**
+     * Method to get a single deployment by its ID
+     * @param id The ID of the deployment to retrieve
+     * @returns The requested Deployment object
+     */
     getOne(id: number) {
         return this.selectDeployments(1).where("id", id);
 
     }
 
+    /**
+     * Method to cancel a deployment by updating its status to 'cancelled'
+     * @param id The ID of the deployment to cancel
+     * @returns The updated Deployment object if the deployment was found and updated, or false otherwise
+     */
     cancel = async (id: string) => {
 
         const returned_id = await this.db(this.deploymentTableName).where("id", id).update({
@@ -64,6 +83,12 @@ export class DeploymentModel extends Model {
         return this.getOne(returned_id[0].id)
 
     }
+
+    /**
+     * Method to update a deployment based on incoming webhook data
+     * @param body An object containing the ID and new status of the deployment
+     * @returns The updated Deployment object if the deployment was found and updated, or false otherwise
+     */
 
     webhook = async (body: WebhookRequestType) => {
 

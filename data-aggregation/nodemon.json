@@ -1,0 +1,7 @@
+{
+    "exec": "ts-node --files -P tsconfig.json app/index.ts",
+    "watch": ["app"],
+    "ext": "ts",
+    "ignore": []
+  }
+  

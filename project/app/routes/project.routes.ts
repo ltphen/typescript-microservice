@@ -7,6 +7,6 @@ const router = new Router()
 
 router.get("/", project.getAll)
 router.get("/:id", project.getOne)
-router.post("/:id/deployment", project.getDeployments)
+router.post("/:id/deployment", project.createDeployment)
 
 export default router;

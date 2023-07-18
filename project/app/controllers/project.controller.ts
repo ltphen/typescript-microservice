@@ -1,5 +1,5 @@
-import { DeploymentModel } from './../models/deployment.model';
-import ProjectModel from './../models/project.model'
+import { DeploymentModel } from '../models/deployment.model';
+import ProjectModel from '../models/project.model'
 import Koa, { Context } from 'koa'
 
 import { strict as assert } from 'node:assert';
@@ -13,6 +13,10 @@ export default class ProjectController {
         this.deploymentModel = new DeploymentModel()
     }
 
+    /**
+     * Get all projects
+     * @param ctx Contains request and response context which includes the query parameters for the request
+     */
     getAll = async (ctx: Context) => {
         const params = ctx.request.query
         const size = 8;
@@ -28,6 +32,11 @@ export default class ProjectController {
         ctx.body = await this.model.getAll(page * size, size)
     }
 
+    /**
+     * Get a specific project
+     * @param ctx Contains request and response context which includes the ID parameter for the request
+     */
+
     getOne = async (ctx: Context) => {
         const data = await this.model.getOne(ctx.params.id)
         if (!data || data.length == 0) {
@@ -42,7 +51,12 @@ export default class ProjectController {
             ctx.body = data[0]
     }
 
-    getDeployments = async (ctx: Context) => {
+    /**
+     * Get deployments and create if it does not exist
+     * @param ctx Contains request and response context which includes the ID parameter for the request
+     */
+
+    createDeployment = async (ctx: Context) => {
         let response = await this.deploymentModel.createDeploment(ctx.params.id)
 
         if (response && response.length != 0)

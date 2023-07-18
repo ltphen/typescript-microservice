@@ -2,7 +2,6 @@ import config from "../config/dotenv";
 
 
 
-
 /**
  * Generates a random URL using the application host and port defined in the environment configuration.
  * The URL consists of a randomly generated path appended to the base URL of the application.

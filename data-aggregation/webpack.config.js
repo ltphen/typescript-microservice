@@ -27,7 +27,7 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: "package.json", to: '.'},
+        { from: "package.json", to: '.' },
         { from: "Dockerfile", to: '.' },
       ],
     }),

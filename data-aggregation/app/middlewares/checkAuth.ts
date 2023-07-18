@@ -2,15 +2,11 @@ import Koa from "koa"
 import { Middleware_Error } from "../utils/customErrors";
 import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import config from "../config/dotenv"
-
-
 /**
- * Middleware to check user authorization
- * @param ctx Contains request and response context which includes the "authorization" header
- * @param next The callback to proceed to the next middleware or route handler
- * @param authType The type of authorization required: "webhook" or "admin"
- * @returns Promise of any type that proceeds to the next middleware if authorization is valid, or sends a 401 Unauthorized response if not
+ * @params params Type description
  */
+
+
 export const checkAuth = async (ctx: Koa.Context, next: Function, authType: "webhook" | "admin"): Promise<any> => {
     try {
         const authorization: string = ctx.request.get("authorization").replace("Bearer ", "");

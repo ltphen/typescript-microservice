@@ -1,7 +1,7 @@
 import Koa, { Context } from 'koa'
-import { DeploymentModel } from './../models/deployment.model';
-import ProjectModel from './../models/project.model'
-import { WebhookRequestType } from "./../types/types";
+import { DeploymentModel } from '../models/deployment.model';
+import ProjectModel from '../models/project.model'
+import { WebhookRequestType } from "../types/types";
 
 
 export default class DeploymentController {
@@ -11,7 +11,10 @@ export default class DeploymentController {
         this.model = new DeploymentModel()
     }
 
-
+    /**
+     * Get all deployments
+     * @param ctx Contains request and response context which includes the query parameters for the request
+     */
     getAll = async (ctx: Context) => {
         const params = ctx.request.query
         const size = 8;
@@ -27,6 +30,10 @@ export default class DeploymentController {
         ctx.body = await this.model.getAll(page * size, size)
     }
 
+    /**
+     * Get a specific deployment
+     * @param ctx Contains request and response context which includes the ID parameter for the request
+     */
     getOne = async (ctx: Context) => {
         const data = await this.model.getOne(ctx.params.id)
         if (!data) {
@@ -41,6 +48,11 @@ export default class DeploymentController {
 
     }
 
+    /**
+     * Cancel a specific deployment
+     * @param ctx Contains request and response context which includes the ID parameter for the request
+     */
+
     cancel = async (ctx: Context) => {
         let response = await this.model.cancel(ctx.params.id)
         if (response && response.length != 0)
@@ -54,6 +66,10 @@ export default class DeploymentController {
         }
     }
 
+    /**
+     * Handle incoming webhook request
+     * @param ctx Contains request and response context which includes the request body
+     */
     webhook = async (ctx: Context) => {
         const body = <WebhookRequestType>ctx.request.body;
         if (!body.hasOwnProperty("id") && !body.hasOwnProperty("status")) {

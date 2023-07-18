@@ -1,7 +1,7 @@
 import knex from './../../app/config/database';
 import app from "./../../app/app"
 import request from 'supertest';
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.x_dEqK8pXfrqMhtF45yLtyC8qYNuRFDkRJCdlEyNOkA";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iwRBOi0cQCeTpO00H3VRqNBLx43owfr6ZfuuQcgy4PA";
 let appServer: any;
 describe('Project API', () => {
     let projectId: string;
