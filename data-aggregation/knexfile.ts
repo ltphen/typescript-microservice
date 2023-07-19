@@ -1,6 +1,5 @@
 // Update with your config settings.
 
-import config from "./app/config/dotenv"
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
@@ -8,7 +7,7 @@ export default {
 
   development: {
     client: 'postgresql',
-    connection: config.databaseURL,
+    connection: process.env.DATABASE_URI,
     pool: {
       min: 2,
       max: 10
@@ -25,7 +24,7 @@ export default {
 
   staging: {
     client: 'postgresql',
-    connection: config.databaseURL,
+    connection: process.env.DATABASE_URI,
     pool: {
       min: 2,
       max: 10
@@ -42,7 +41,7 @@ export default {
 
   production: {
     client: 'postgresql',
-    connection: config.databaseURL,
+    connection: process.env.DATABASE_URI,
     pool: {
       min: 2,
       max: 10
