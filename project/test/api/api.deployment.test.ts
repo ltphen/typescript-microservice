@@ -12,7 +12,7 @@ describe('Deployment API', () => {
         await knex.migrate.latest()
         await knex.seed.run()
         appServer = await (new app()).config()
-        appSecret = "ST5I3FG1YR_8ZAT8OnjrP46pCg4PPMNGSt7-RwdVCu4"
+        appSecret = "theAppSecret"
         deploymentId = await createDeployment(1);
     });
 
