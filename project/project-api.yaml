@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   description: "This public service is supposed to be used to get informations related to projects and manage deployments."
   version: 1.0.0
-  title: Strapi Cloud case study - Project API
+  title:  Cloud case study - Project API
 servers:
   - url: http://localhost:3000
 tags:
