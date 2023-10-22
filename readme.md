@@ -1,4 +1,4 @@
-# Strapi test project
+# Simple microservice project with nodejs
 
 
 ## Description
@@ -9,8 +9,8 @@ Briefly describe what your project does. Mention the services it offers and the 
 
 This project contains two microservices:
 
-- **Project Service**: Add a brief description of what this service does.
-- **Data Aggregation Service**: Add a brief description of what this service does.
+- **Project Service**.
+- **Data Aggregation Service**.
 
 ## Prerequisites
 
